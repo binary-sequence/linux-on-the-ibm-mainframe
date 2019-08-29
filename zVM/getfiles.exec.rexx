@@ -1,0 +1,34 @@
+/* GET KERNEL AND INITRD FROM FTP                                     */
+SIGNAL ON FAILURE NAME DIE
+ 
+/* FTPSERVER CAN BE AN IP OR HOSTNAME                                 */
+/* DIR IS THE INSTALLATION DIRECTORY CONTAINING THE KERNEL AND INITRD */
+PARSE ARG FTPSERVER DIR
+ 
+/* DETACH VIRTUAL DISK IF ALREADY IN USE     **DATA LOSS**            */
+'DETACH FFFF'
+/* CREATE A VIRTUAL DISK    MODEL VFB-512    200K CYLINDERS           */
+'DEFINE VFB-512 AS FFFF BLK 200000'
+/* FORMAT VIRTUAL DISK AND LABEL IT AS TMPDISK                        */
+QUEUE '1'
+QUEUE 'TMPDISK'
+'FORMAT FFFF T'
+ 
+/* ACTIVATE NETWORK COMMANDS                                          */
+VMLINK TCPMAINT 592
+/* ANONYMOUS USER FTP AND PASSWORD FTP                                */
+QUEUE 'ftp ftp'
+/* BINARY TRANSFER MODE                                               */
+QUEUE 'binary'
+/* INITIATE TRANSFER FROM THE CLIENT                                  */
+QUEUE 'passive'
+QUEUE 'cd' DIR
+/* SYNTAX: FILENAME.FILETYPE.FILEMODE                                 */
+QUEUE 'get linux TW.KERNEL.T'
+QUEUE 'get initrd TW.INITRD.T'
+QUEUE 'quit'
+FTP FTPSERVER
+ 
+/* FORMAT BINARY FILES TO MATCH PUNCH CARD LENGTH OF 80 CHARACTERS    */
+'PIPE < TW KERNEL T | FBLOCK 80 00 | > TW KERNEL T'
+'PIPE < TW INITRD T | FBLOCK 80 00 | > TW INITRD T'
