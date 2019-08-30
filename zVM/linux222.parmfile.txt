@@ -1,0 +1,6 @@
+WriteChannel=0.0.0801 ReadChannel=0.0.0800 DataChannel=0.0.0802
+Hostname=s390zlp1.suse.de Domain=suse.de
+HostIP=10.161.157.222/20 Gateway=10.161.159.254 Nameserver=10.160.0.1
+InstNetDev=osa Layer2=0 OSAInterface=qdio PortNo=0
+OSAMedium=eth
+info=http://10.162.22.15/anon/linuxrc.info
