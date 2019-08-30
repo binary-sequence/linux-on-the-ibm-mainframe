@@ -1,0 +1,6 @@
+vnc: 1
+vncpassword: nots3cr3t
+vncsize: 1024x768
+sshd: 1
+sshpassword: nots3cr3t
+install: http://10.162.22.15/anon/tw-s390x/
